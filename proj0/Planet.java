@@ -2,7 +2,7 @@
  *  to be simulated in this proj
  */
 public class Planet {
-	public double G = 6.67e-11;
+	private double G = 6.67e-11;
 
 	public double xxPos;
 	public double yyPos;
