@@ -2,7 +2,6 @@ public class ArrayDeque<T> {
     private T[] items;
     private int size;
     private int front;
-    private int RFACTOR = 3;
 
     public ArrayDeque() {
         size = 0;
@@ -25,7 +24,7 @@ public class ArrayDeque<T> {
 
     public void addFirst(T item) {
         if (size == items.length) {
-            resize(size + RFACTOR);
+            resize(size * 2);
         }
         front = (front + items.length - 1) % items.length;
         items[front] = item;
@@ -34,7 +33,7 @@ public class ArrayDeque<T> {
 
     public void addLast(T item) {
         if (size == items.length) {
-            resize(size + RFACTOR);
+            resize(size * 2);
         }
         items[(front + size) % items.length] = item;
         size++;
@@ -60,8 +59,8 @@ public class ArrayDeque<T> {
 
     public T removeFirst() {
         if (size > 0) {
-            if (items.length > 8 && size <= items.length - RFACTOR) {
-                resize(items.length - RFACTOR);
+            if (items.length > 8 && size <= items.length / 2) {
+                resize(items.length / 2);
             }
             T temp = items[front];
             items[front] = null;
@@ -75,8 +74,8 @@ public class ArrayDeque<T> {
 
     public T removeLast() {
         if (size > 0) {
-            if (items.length > 8 && size <= items.length - RFACTOR) {
-                resize(items.length - RFACTOR);
+            if (items.length > 8 && size <= items.length / 2) {
+                resize(items.length / 2);
             }
             T temp = items[(front + size - 1) % items.length];
             items[(front + size - 1) % items.length] = null;
