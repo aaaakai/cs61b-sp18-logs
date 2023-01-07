@@ -6,7 +6,7 @@ public class ArrayDeque<T> {
 
     public ArrayDeque() {
         size = 0;
-        items = (T []) new Object[size];
+        items = (T []) new Object[8];
         front = 0;
     }
 
@@ -72,7 +72,7 @@ public class ArrayDeque<T> {
     public T removeLast() {
         if (size > 0) {
             T temp = items[(front + size - 1) % items.length];
-            items[front + size - 1] = null;
+            items[(front + size - 1) % items.length] = null;
             size--;
             return temp;
         } else {

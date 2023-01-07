@@ -87,19 +87,18 @@ public class ArrayDequeTest {
 
         ArrayDeque<Integer> lld = new ArrayDeque<>();
 
-        lld.addFirst(2);
-        lld.addFirst(1);
-        lld.addLast(3);
+        lld.addLast(0);
+        lld.addLast(1);
+        lld.addLast(2);
+        boolean passed = 2 == lld.removeLast();
         lld.addLast(4);
-        lld.addLast(5);
-        lld.addLast(6);
-        lld.addLast(7);
-        lld.addLast(8);
-        lld.addLast(9);
-
-        boolean passed = (1 == lld.get(0));
-        passed = passed && (2 == lld.get(1));
-        passed = passed && (3 == lld.get(2));
+        lld.addFirst(5);
+        passed = passed && 5 == lld.removeFirst();
+        passed = passed && 0 == lld.get(0);
+        lld.addFirst(9);
+        lld.addFirst(10);
+        lld.addFirst(11);
+        passed = passed && 4 == lld.removeLast();
         lld.printDeque();
 
         printTestStatus(passed);

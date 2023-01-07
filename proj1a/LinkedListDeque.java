@@ -4,13 +4,13 @@ public class LinkedListDeque<T> {
         private T item;
         private Node next;
 
-        public Node(T itemcontained, Node prevnode, Node nextnode) {
+        private Node(T itemcontained, Node prevnode, Node nextnode) {
             item = itemcontained;
             prev = prevnode;
             next = nextnode;
         }
 
-        public Node() {
+        private Node() {
             this(null, null, null);
         }
 
