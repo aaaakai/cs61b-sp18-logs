@@ -10,9 +10,9 @@ public class ArrayDeque<T> {
         front = 0;
     }
 
-    public void resize(int newsize) {
+    private void resize(int newsize) {
         T[] newitems = (T []) new Object[newsize];
-        if (front + size <= items.length) {
+        if (front == 0) {
             System.arraycopy(items, front, newitems, 0, size);
         } else {
             System.arraycopy(items, front, newitems, 0, items.length - front);
