@@ -12,11 +12,12 @@ public class ArrayDeque<T> {
 
     private void resize(int newsize) {
         T[] newitems = (T []) new Object[newsize];
-        if (front == 0) {
+        if ((front + size - 1) % items.length >= front) {
             System.arraycopy(items, front, newitems, 0, size);
         } else {
             System.arraycopy(items, front, newitems, 0, items.length - front);
-            System.arraycopy(items, 0, newitems, items.length - front, front);
+            System.arraycopy(items, 0, newitems,
+                    items.length - front, size - items.length + front);
         }
         front = 0;
         items = newitems;
@@ -59,6 +60,9 @@ public class ArrayDeque<T> {
 
     public T removeFirst() {
         if (size > 0) {
+            if (items.length > 8 && size <= items.length - RFACTOR) {
+                resize(items.length - RFACTOR);
+            }
             T temp = items[front];
             items[front] = null;
             front = (front + 1) % items.length;
@@ -71,6 +75,9 @@ public class ArrayDeque<T> {
 
     public T removeLast() {
         if (size > 0) {
+            if (items.length > 8 && size <= items.length - RFACTOR) {
+                resize(items.length - RFACTOR);
+            }
             T temp = items[(front + size - 1) % items.length];
             items[(front + size - 1) % items.length] = null;
             size--;
