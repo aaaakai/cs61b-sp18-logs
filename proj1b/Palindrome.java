@@ -9,8 +9,8 @@ public class Palindrome {
 
     private boolean palihelper(Deque chardeque) {
         if (chardeque.size() > 1) {
-            return (chardeque.removeFirst() == chardeque.removeLast())
-                    && palihelper(chardeque);
+            boolean isequal = (chardeque.removeFirst() == chardeque.removeLast());
+            return isequal && palihelper(chardeque);
         } else {
             return true;
         }
