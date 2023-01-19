@@ -14,7 +14,7 @@ public class PercolationStats {
             while (!model.percolates()) {
                 model.open(uniform(N), uniform(N));
             }
-            threshold[T] = model.numberOfOpenSites();
+            threshold[i] = model.numberOfOpenSites();
         }
     }
 

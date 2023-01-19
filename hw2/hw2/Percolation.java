@@ -82,6 +82,10 @@ public class Percolation {
         if (col < size - 1) {
             connect(grid[row][col + 1], grid[row][col]);
         }
+        Site repre = represent(grid[row][col].index);
+        if (repre.full && repre.connectedToBottom) {
+            percolation = true;
+        }
     }
 
     // is the Site (row, col) open?
@@ -143,5 +147,14 @@ public class Percolation {
         assertTrue(model1.isFull(10, 1));
         assertTrue(model1.percolates());
         assertTrue(model1.numberOfOpenSites() == 39);
+
+        Percolation model2 = new Percolation(1);
+        model2.open(0, 0);
+        assertTrue(model2.percolates());
+
+        Percolation model3 = new Percolation(2);
+        model3.open(0, 0);
+        model3.open(1, 0);
+        assertTrue(model3.percolates());
     }
 }
