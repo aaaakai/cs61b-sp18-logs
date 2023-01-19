@@ -15,7 +15,7 @@ public class PercolationStats {
                 int row = uniform(N);
                 int col = uniform(N);
                 if (!model.isOpen(row, col)) {
-                    model.open(uniform(N), uniform(N));
+                    model.open(row, col);
                 }
             }
             threshold[i] = model.numberOfOpenSites();
@@ -38,7 +38,7 @@ public class PercolationStats {
         return mean() + 1.96 * stddev() / Math.sqrt(threshold.length);
     }
 
-    /**
+
     public static void main(String[] args) {
         PercolationFactory tool = new PercolationFactory();
         PercolationStats testmodel = new PercolationStats(20, 1000, tool);
@@ -46,5 +46,5 @@ public class PercolationStats {
         System.out.print(testmodel.stddev() + "\n");
         System.out.print(testmodel.confidenceLow() + "\n");
     }
-     */
+     
 }
