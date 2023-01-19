@@ -12,7 +12,11 @@ public class PercolationStats {
         for (int i = 0; i < T; i++) {
             Percolation model = pf.make(N);
             while (!model.percolates()) {
-                model.open(uniform(N), uniform(N));
+                int row = uniform(N);
+                int col = uniform(N);
+                if (!model.isOpen(row, col)) {
+                    model.open(uniform(N), uniform(N));
+                }
             }
             threshold[i] = model.numberOfOpenSites();
         }
@@ -34,4 +38,13 @@ public class PercolationStats {
         return mean() + 1.96 * stddev() / Math.sqrt(threshold.length);
     }
 
+    /**
+    public static void main(String[] args) {
+        PercolationFactory tool = new PercolationFactory();
+        PercolationStats testmodel = new PercolationStats(20, 1000, tool);
+        System.out.print(testmodel.mean() + "\n");
+        System.out.print(testmodel.stddev() + "\n");
+        System.out.print(testmodel.confidenceLow() + "\n");
+    }
+     */
 }

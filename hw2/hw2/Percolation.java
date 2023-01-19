@@ -24,6 +24,9 @@ public class Percolation {
 
     // create N-by-N grid, with all Sites initially blocked
     public Percolation(int N) {
+        if (N <= 0) {
+            throw new java.lang.IllegalArgumentException("arg should be positive");
+        }
         size = N;
         percolation = false;
         grid = new Site[N][N];
