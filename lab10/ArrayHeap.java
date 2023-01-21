@@ -27,24 +27,21 @@ public class ArrayHeap<T> implements ExtrinsicPQ<T> {
      * Returns the index of the node to the left of the node at i.
      */
     private static int leftIndex(int i) {
-        /* TODO: Your code here! */
-        return 0;
+        return 2 * i;
     }
 
     /**
      * Returns the index of the node to the right of the node at i.
      */
     private static int rightIndex(int i) {
-        /* TODO: Your code here! */
-        return 0;
+        return 2 * i + 1;
     }
 
     /**
      * Returns the index of the node that is the parent of the node at i.
      */
     private static int parentIndex(int i) {
-        /* TODO: Your code here! */
-        return 0;
+        return i / 2;
     }
 
     /**
@@ -107,8 +104,11 @@ public class ArrayHeap<T> implements ExtrinsicPQ<T> {
         // Throws an exception if index is invalid. DON'T CHANGE THIS LINE.
         validateSinkSwimArg(index);
 
-        /** TODO: Your code here. */
-        return;
+        while (index > 1
+                && contents[index].myPriority <= contents[parentIndex(index)].myPriority) {
+            swap(index, parentIndex(index));
+            index = parentIndex(index);
+        }
     }
 
     /**
@@ -118,8 +118,13 @@ public class ArrayHeap<T> implements ExtrinsicPQ<T> {
         // Throws an exception if index is invalid. DON'T CHANGE THIS LINE.
         validateSinkSwimArg(index);
 
-        /** TODO: Your code here. */
-        return;
+        int minIndex = min(leftIndex(index), rightIndex(index));
+        while (leftIndex(index) <= size
+                && contents[minIndex].myPriority <= contents[index].myPriority) {
+            swap(index, minIndex);
+            index = minIndex;
+            minIndex = min(leftIndex(index), rightIndex(index));
+        }
     }
 
     /**
@@ -133,7 +138,10 @@ public class ArrayHeap<T> implements ExtrinsicPQ<T> {
             resize(contents.length * 2);
         }
 
-        /* TODO: Your code here! */
+        Node newNode = new Node(item, priority);
+        size++;
+        contents[size] = newNode;
+        swim(size);
     }
 
     /**
@@ -142,8 +150,11 @@ public class ArrayHeap<T> implements ExtrinsicPQ<T> {
      */
     @Override
     public T peek() {
-        /* TODO: Your code here! */
-        return null;
+        if (size() > 0) {
+            return contents[1].item();
+        } else {
+            return null;
+        }
     }
 
     /**
@@ -157,8 +168,12 @@ public class ArrayHeap<T> implements ExtrinsicPQ<T> {
      */
     @Override
     public T removeMin() {
-        /* TODO: Your code here! */
-        return null;
+        swap(1, size);
+        T minItem = contents[size].myItem;
+        contents[size] = null;
+        size--;
+        sink(1);
+        return minItem;
     }
 
     /**
@@ -171,6 +186,20 @@ public class ArrayHeap<T> implements ExtrinsicPQ<T> {
         return size;
     }
 
+    private int findNode(T item) {
+        int i;
+        for (i = 1; i <= size; i++) {
+            if (contents[i].myItem.equals(item)) {
+                break;
+            }
+        }
+        if (i <= size) {
+            return i;
+        } else {
+            return 0;
+        }
+    }
+
     /**
      * Change the node in this heap with the given item to have the given
      * priority. You can assume the heap will not have two nodes with the same
@@ -180,8 +209,17 @@ public class ArrayHeap<T> implements ExtrinsicPQ<T> {
      */
     @Override
     public void changePriority(T item, double priority) {
-        /* TODO: Your code here! */
-        return;
+        int index = findNode(item);
+        if (index != 0) {
+            contents[index].myPriority = priority;
+            if (priority < contents[parentIndex(index)].myPriority) {
+                swim(index);
+            } else {
+                sink(index);
+            }
+        } else {
+            throw new IllegalArgumentException("given item dont exist in heap");
+        }
     }
 
     /**
@@ -238,7 +276,7 @@ public class ArrayHeap<T> implements ExtrinsicPQ<T> {
             myPriority = priority;
         }
 
-        public T item(){
+        public T item() {
             return myItem;
         }
 
