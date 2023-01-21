@@ -7,7 +7,9 @@ import static org.junit.Assert.assertTrue;
 import static java.util.HashSet.*;
 
 
-import java.util.*;
+import java.util.HashSet;
+import java.util.List;
+import java.util.ArrayList;
 
 
 public class TestSimpleOomage {

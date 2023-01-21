@@ -18,13 +18,13 @@ public class OomageTestUtility {
         }
         for (Oomage color : oomages) {
             int index = (color.hashCode() & 0x7FFFFFFF) % M;
-            numBuckets[index] ++;
+            numBuckets[index]++;
             N++;
         }
         boolean result = true;
         for (int i = 0; i < M; i++) {
-            result = result && (double)numBuckets[i] >= ((double) N) / 50
-                    && (double)numBuckets[i] <= ((double) N) / 2.5;        }
+            result = result && (double) numBuckets[i] >= ((double) N) / 50
+                    && (double) numBuckets[i] <= ((double) N) / 2.5;        }
         return result;
     }
 }
