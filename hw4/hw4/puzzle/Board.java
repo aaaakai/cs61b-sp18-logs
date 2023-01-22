@@ -119,6 +119,9 @@ public class Board implements WorldState {
     }
 
     public boolean equals(Object y) {
+        if (y == null) {
+            return false;
+        }
         if (y.getClass() != this.getClass()) {
             return false;
         }
