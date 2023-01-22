@@ -72,7 +72,6 @@ public class QuickSort {
         Item pivot = getRandomItem(items);
         partition(items, pivot, temp1, temp2, temp3);
         temp1 = quickSort(temp1);
-        temp2 = quickSort(temp2);
         temp3 = quickSort(temp3);
         temp2 = catenate(temp1, temp2);
         return catenate(temp2, temp3);
