@@ -47,13 +47,62 @@ public class QuickSort {
     private static <Item extends Comparable> void partition(
             Queue<Item> unsorted, Item pivot,
             Queue<Item> less, Queue<Item> equal, Queue<Item> greater) {
-        // Your code here!
+        for (Item temp : unsorted) {
+            if (temp.compareTo(pivot) < 0) {
+                less.enqueue(temp);
+            } else if (temp.compareTo(pivot) == 0) {
+                equal.enqueue(temp);
+            } else {
+                greater.enqueue(temp);
+            }
+        }
     }
 
     /** Returns a Queue that contains the given items sorted from least to greatest. */
     public static <Item extends Comparable> Queue<Item> quickSort(
             Queue<Item> items) {
-        // Your code here!
-        return items;
+        if (items.size() <= 1) {
+            Queue<Item> nullqueue = new Queue<>();
+            for (Item item : items) {
+                nullqueue.enqueue(item);
+            }
+            return nullqueue;
+        }
+        Queue<Item> temp1 = new Queue<>(), temp2 = new Queue<>(), temp3 = new Queue<>();
+        Item pivot = getRandomItem(items);
+        partition(items, pivot, temp1, temp2, temp3);
+        temp1 = quickSort(temp1);
+        temp2 = quickSort(temp2);
+        temp3 = quickSort(temp3);
+        temp2 = catenate(temp1, temp2);
+        return catenate(temp2, temp3);
+    }
+
+    public static void main(String args[]) {
+        Queue<String> students = new Queue<String>();
+        students.enqueue("Alice");
+        students.enqueue("Vanessa");
+        students.enqueue("Ethan");
+        Queue<String> result = QuickSort.quickSort(students);
+        for (String item : students) {
+            System.out.print(item + " ");
+        }
+        System.out.print("\n");
+        for (String item : result) {
+            System.out.print(item + " ");
+        }
+
+        Queue<Integer> nums = new Queue<>();
+        for (int i = 10; i >= 0; i--) {
+            nums.enqueue(i);
+        }
+        Queue<Integer> sortednums = QuickSort.quickSort(nums);
+        for (Integer item : nums) {
+            System.out.print(item + " ");
+        }
+        System.out.print("\n");
+        for (Integer item : sortednums) {
+            System.out.print(item + " ");
+        }
     }
 }
