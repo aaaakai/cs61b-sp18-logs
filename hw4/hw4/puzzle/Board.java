@@ -41,7 +41,7 @@ public class Board implements WorldState {
 
     public Iterable<WorldState> neighbors() {
         int i = 0, j = 0;
-        for ( int x = 0; x < size; x++) {
+        for (int x = 0; x < size; x++) {
             for (int y = 0; y < size; y++) {
                 if (boardTiles[x][y] == 0) {
                     i = x;
@@ -122,6 +122,9 @@ public class Board implements WorldState {
         if (y.getClass() != this.getClass()) {
             return false;
         }
+        if (((Board) y).size != this.size) {
+            return false;
+        }
         boolean equal = true;
         for (int i = 0; i < size; i++) {
             for (int j = 0; j < size; j++) {
@@ -129,6 +132,10 @@ public class Board implements WorldState {
             }
         }
         return equal;
+    }
+
+    public int hashCode() {
+        return this.boardTiles[0][0];
     }
 
     /** Returns the string representation of the board. 
