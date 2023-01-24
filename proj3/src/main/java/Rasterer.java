@@ -44,9 +44,9 @@ public class Rasterer {
     public Map<String, Object> getMapRaster(Map<String, Double> params) {
         // System.out.println(params);
         Map<String, Object> results = new HashMap<>();
-        double lrlon = params.get("lrlon"), lrlat = params.get("lrlat")
-                , ullon = params.get("ullon"), ullat = params.get("ullat")
-                , w = params.get("w"), h = params.get("h");
+        double lrlon = params.get("lrlon"), lrlat = params.get("lrlat"),
+                ullon = params.get("ullon"), ullat = params.get("ullat"),
+                w = params.get("w"), h = params.get("h");
         if (lrlon <= MapServer.ROOT_ULLON || ullon >= MapServer.ROOT_LRLON
                 || ullat <= MapServer.ROOT_LRLAT || lrlat >= MapServer.ROOT_ULLAT
                 || ullat <= lrlat || lrlon <= ullon) {
@@ -56,8 +56,8 @@ public class Rasterer {
         double lonDPP = (lrlon - ullon) / w;
         int depth;
         for (depth = 0; depth < 7; depth++) {
-            double londpp = (MapServer.ROOT_LRLON - MapServer.ROOT_ULLON) /
-                    (MapServer.TILE_SIZE * Math.pow(2, depth));
+            double londpp = (MapServer.ROOT_LRLON - MapServer.ROOT_ULLON)
+                    / (MapServer.TILE_SIZE * Math.pow(2, depth));
             if (londpp <= lonDPP) {
                 break;
             }
@@ -65,26 +65,26 @@ public class Rasterer {
         int gridSize = (int) Math.pow(2, depth);
         double lonPerGrid = ((MapServer.ROOT_LRLON - MapServer.ROOT_ULLON) / gridSize);
         double latPerGrid = ((MapServer.ROOT_ULLAT - MapServer.ROOT_LRLAT) / gridSize);
-        int leftEnd = (int) Math.floor((ullon - MapServer.ROOT_ULLON) /
-                lonPerGrid);
-        int rightEnd = (int) Math.floor((lrlon - MapServer.ROOT_ULLON) /
-                lonPerGrid);
-        int upEnd = (int) Math.floor((ullat - MapServer.ROOT_LRLAT) /
-                latPerGrid);
-        int lowEnd = (int) Math.floor((lrlat - MapServer.ROOT_LRLAT) /
-                latPerGrid);
+        int leftEnd = (int) Math.floor((ullon - MapServer.ROOT_ULLON)
+                / lonPerGrid);
+        int rightEnd = (int) Math.floor((lrlon - MapServer.ROOT_ULLON)
+                / lonPerGrid);
+        int upEnd = (int) Math.floor((ullat - MapServer.ROOT_LRLAT)
+                / latPerGrid);
+        int lowEnd = (int) Math.floor((lrlat - MapServer.ROOT_LRLAT)
+                / latPerGrid);
         leftEnd = Math.max(leftEnd, 0);
         rightEnd = Math.min(rightEnd, gridSize - 1);
         upEnd = Math.min(upEnd, gridSize - 1);
         lowEnd = Math.max(lowEnd, 0);
-        String[][] render_grid = new String[upEnd - lowEnd + 1][rightEnd - leftEnd + 1];
+        String[][] renderGrid = new String[upEnd - lowEnd + 1][rightEnd - leftEnd + 1];
         for (int y = lowEnd; y <= upEnd; y++) {
             for (int x = leftEnd; x <= rightEnd; x++) {
-                render_grid[upEnd - y][x - leftEnd] = "d" + depth + "_x" +
-                        x + "_y" + (gridSize - 1 - y) + ".png";
+                renderGrid[upEnd - y][x - leftEnd] = "d" + depth + "_x"
+                        + x + "_y" + (gridSize - 1 - y) + ".png";
             }
         }
-        results.put("render_grid", render_grid);
+        results.put("render_grid", renderGrid);
         results.put("raster_ul_lon", MapServer.ROOT_ULLON + lonPerGrid * leftEnd);
         results.put("raster_ul_lat", MapServer.ROOT_LRLAT + latPerGrid * (upEnd + 1));
         results.put("raster_lr_lon", MapServer.ROOT_ULLON + lonPerGrid * (rightEnd + 1));
