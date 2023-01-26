@@ -1,5 +1,4 @@
-import java.util.List;
-import java.util.Objects;
+import java.util.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -25,7 +24,66 @@ public class Router {
      */
     public static List<Long> shortestPath(GraphDB g, double stlon, double stlat,
                                           double destlon, double destlat) {
-        return null; // FIXME
+        long source = g.closest(stlon, stlat);
+        long target = g.closest(destlon, destlat);
+        SearchNode start = new SearchNode(source, 0, null, 0
+                , g.distance(source, target));
+        SearchNode temp = null;
+        HashSet<Long> mark = new HashSet<>();
+        PriorityQueue<SearchNode> searchQueue = new PriorityQueue<>();
+        searchQueue.add(start);
+        while (!searchQueue.isEmpty()) {
+            temp = searchQueue.remove();
+            mark.add(temp.node);
+            if (temp.node == target) {
+                break;
+            } else {
+                for (Long neighbor : g.adjacent(temp.node)) {
+                    if ((temp.previous == null || temp.previous.node != neighbor)
+                            && !mark.contains(neighbor)) {
+                        double sumofdist = temp.sumOfDistance + g.distance(temp.node, neighbor);
+                        double est = sumofdist + g.distance(neighbor, target);
+                        SearchNode newSearch = new SearchNode(neighbor, temp.moves + 1,
+                                temp, sumofdist, est);
+                        searchQueue.add(newSearch);
+                    }
+                }
+            }
+        }
+        LinkedList<Long> result = new LinkedList<>();
+        while (temp != null) {
+            result.addFirst(temp.node);
+            temp = temp.previous;
+        }
+        return result;
+    }
+
+    static class SearchNode implements Comparable<SearchNode> {
+        private long node;
+        private int moves;
+        private SearchNode previous;
+        private double sumOfDistance;
+        private double estDist;
+
+        public SearchNode(long node, int moves, SearchNode previous, double sumOfDistance,
+                           double estDist) {
+            this.node = node;
+            this.moves = moves;
+            this.previous = previous;
+            this.sumOfDistance = sumOfDistance;
+            this.estDist = estDist;
+        }
+
+        @Override
+        public int compareTo(SearchNode node) {
+            if (this.estDist <= node.estDist) {
+                return -1;
+            /*} else if (this.estDist == node.estDist) {
+                return 0;*/
+            } else {
+                return 1;
+            }
+        }
     }
 
     /**

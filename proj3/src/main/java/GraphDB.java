@@ -152,11 +152,13 @@ public class GraphDB {
      * @return An iterable of the ids of the neighbors of v.
      */
     Iterable<Long> adjacent(long v) {
+        /*
         HashSet<Long> neighbors = new HashSet<>();
         for (Long id : Graph.get(v).edges) {
             neighbors.add(id);
         }
-        return neighbors;
+        */
+        return Graph.get(v).edges;
     }
 
     /**
