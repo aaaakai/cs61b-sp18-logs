@@ -16,7 +16,9 @@ public class SeamCarver {
         currentPic = new Picture(picture.width(), picture.height());
         for (int x = 0; x < picture.width(); x++) {
             for (int y = 0; y < picture.height(); y++) {
-                currentPic.set(x, y, picture.get(x, y));
+                Color pixel = picture.get(x, y);
+                currentPic.set(x, y, new Color(pixel.getRed(), pixel.getGreen(),
+                        pixel.getBlue()));
             }
         }
         cacuEnergy();
