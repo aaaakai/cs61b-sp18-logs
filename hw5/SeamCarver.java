@@ -13,8 +13,12 @@ public class SeamCarver {
     private double[][] energies;
 
     public SeamCarver(Picture picture) {
-        // this is destructive
-        currentPic = picture;
+        currentPic = new Picture(picture.width(), picture.height());
+        for (int x = 0; x < picture.width(); x++) {
+            for (int y = 0; y < picture.height(); y++) {
+                currentPic.set(x, y, new Color(picture.getRGB(x, y)));
+            }
+        }
         cacuEnergy();
     }
 
